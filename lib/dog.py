@@ -1,7 +1,30 @@
 from models import Dog
 
+from sqlalchemy import (create_engine,
+    CheckConstraint, PrimaryKeyConstraint, UniqueConstraint,
+    Index, Column, Integer, String)
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 def create_table(base):
-    pass
+    __tablename__ = 'dogs'
+    __table_args__ = (
+        PrimaryKeyConstraint(
+            'id',
+            name='id_pk'),
+        UniqueConstraint(
+            'email',
+            name='unique_email'),
+        CheckConstraint(
+            'grade BETWEEN 1 AND 12',
+            name='grade_between_1_and_12')
+    )
+
+    Index('index_name', 'name')
+
+    id = Column(Integer())
+    name = Column(String())
+    email = Column(String(55))
 
 def save(session, dog):
     pass
